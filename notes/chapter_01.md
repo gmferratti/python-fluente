@@ -156,9 +156,3 @@ def __setitem__(self, position, value):
 Ruby e Python expõem um **protocolo de metaobjetos** (MOP) rico: qualquer pessoa pode emular o que os mantenedores do interpretador fazem. Não é mágica — é design deliberado para que a linguagem seja extensível de forma coerente. Isso contrasta com linguagens onde os tipos primitivos têm privilégios que classes de usuário não têm.
 
 O capítulo 1 já introduz esse princípio porque é o fundamento de tudo que vem depois no livro.
-
-
-# Adicionar __contains__ sobrescreve a busca linear do "in" com logica propria.
-# Adicionar __iter__ sobrescreve a iteracao via __getitem__.
-# Adicionar __reversed__ sobrescreve o reversed() via __getitem__.
-```
