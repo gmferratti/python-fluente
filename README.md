@@ -1,4 +1,4 @@
-# Python Fluente — Clube do Livro · LHC
+# Python Fluente: Clube do Livro · LHC
 
 Acompanhamento da leitura coletiva do livro **Python Fluente** de Luciano Ramalho, realizada pelo clube do livro do [Laboratório Hacker de Campinas (LHC)](https://lhc.net.br).
 
