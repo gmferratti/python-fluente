@@ -135,7 +135,7 @@ def __setitem__(self, position, value):
 
 ---
 
-## ABCs — Classes Base Abstratas
+## ABCs ou Classes Base Abstratas
 
 - Definidas em `collections.abc` (e `numbers`). Documentam formalmente os protocolos do Python: `Sequence`, `Mapping`, `Iterable`, `MutableSequence`, etc.
 - Permitem verificar conformidade com `isinstance(obj, Sequence)` sem herança direta, desde que os métodos necessários estejam implementados (registro virtual).
@@ -157,16 +157,6 @@ Ruby e Python expõem um **protocolo de metaobjetos** (MOP) rico: qualquer pesso
 
 O capítulo 1 já introduz esse princípio porque é o fundamento de tudo que vem depois no livro.
 
----
-
-## Resumo prático
-
-```python
-# Implementar __len__ e __getitem__ é suficiente para:
-# iteracao, slicing, reversed(), in, choice(), sorted()
-
-# Adicionar __setitem__ habilita:
-# shuffle() e qualquer atribuicao por indice
 
 # Adicionar __contains__ sobrescreve a busca linear do "in" com logica propria.
 # Adicionar __iter__ sobrescreve a iteracao via __getitem__.
