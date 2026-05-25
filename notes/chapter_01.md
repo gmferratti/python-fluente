@@ -97,6 +97,22 @@ Implementar `__len__` na sua classe garante que `len()` funcione da mesma forma 
 
 ---
 
+## ABCs — Classes Base Abstratas
+
+- Definidas em `collections.abc` (e `numbers`). Documentam formalmente os protocolos do Python: `Sequence`, `Mapping`, `Iterable`, `MutableSequence`, etc.
+- Permitem verificar conformidade com `isinstance(obj, Sequence)` sem herança direta, desde que os métodos necessários estejam implementados (registro virtual).
+- O capítulo os menciona como antecipação; são explorados em profundidade nos capítulos de coleções e classes abstratas.
+
+---
+
+## Operadores infixos e unários
+
+- **Unários**: operam sobre um único operando. `abs(v)` chama `v.__abs__()`. `-x` chama `__neg__`. `len(x)` se comporta de forma análoga para sequências.
+- **Infixos**: operam entre dois operandos. `v1 + v2` chama `v1.__add__(v2)`. Graças à sobrecarga, tipos como vetores e matrizes podem usar `+`, `*`, `@` (produto matricial, PEP 465) de forma natural.
+- O Python não cria operadores novos — sobrescreve o comportamento dos existentes para tipos definidos pelo usuário.
+
+---
+
 ## Vector: métodos aritméticos e de representação
 
 O segundo exemplo do capítulo mostra os dunders de aritmética:
@@ -125,9 +141,9 @@ def __repr__(self):
 
 ## O princípio maior
 
-Ruby e Python expõem um **protocolo de metaobjetos** rico: qualquer desenvolvedor pode emular o que os mantenedores do interpretador fazem. Tipos definidos pelo usuário têm acesso aos mesmos ganchos que os tipos built-in.
+Ruby e Python expõem um **protocolo de metaobjetos** (MOP) rico: qualquer desenvolvedor pode emular o que os mantenedores do interpretador fazem. Não é mágica — é design deliberado para que a linguagem seja extensível de forma coerente. Isso contrasta com linguagens onde os tipos primitivos têm privilégios que classes de usuário não têm.
 
-É por isso que `FrenchDeck` funciona com `random.choice()` sem herdar de `list`, e `Vector` pode usar `+` sem herdar de nenhum tipo numérico. Não é privilégio dos tipos nativos — é um protocolo aberto.
+Tipos definidos pelo usuário têm acesso aos mesmos ganchos que os tipos built-in. É por isso que `FrenchDeck` funciona com `random.choice()` sem herdar de `list`, e `Vector` pode usar `+` sem herdar de nenhum tipo numérico. Não é privilégio dos tipos nativos — é um protocolo aberto.
 
 O capítulo 1 introduz esse princípio cedo porque é a base de tudo que vem depois no livro.
 
