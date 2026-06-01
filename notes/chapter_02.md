@@ -146,6 +146,98 @@ for camiseta in (f"{cor} {tam}" for cor in cores for tam in tamanhos):
 
 ## 2.4 Tuplas
 
+Tuplas possuem dupla função em Python: **listas imutáveis** ou **registros com campos sem nome**.
+A posição de cada item carrega significado quando a tupla é usada como registro.
+
+---
+
+### Tuplas como registros
+
+```python
+# Coordenada geográfica: (latitude, longitude)
+brasilia = (-15.7797, -47.9297)
+lat, lon = brasilia
+
+# Linha de um CSV: (cidade, ano, população)
+registro = ("São Paulo", 2024, 11_451_245)
+cidade, ano, pop = registro
+print(f"{cidade} tinha {pop:,} hab. em {ano}")
+```
+
+---
+
+### Desempacotamento posicional
+
+```python
+# Swap sem variável temporária
+a, b = 10, 20
+a, b = b, a  # a=20, b=10
+
+# Ignorar campos com _ (convenção para variável descartável)
+_, ano, _ = registro
+
+# Capturar o restante com * (retorna lista, mesmo vindo de tupla)
+primeiro, *meio, ultimo = (1, 2, 3, 4, 5)
+# primeiro=1, meio=[2, 3, 4], ultimo=5
+```
+
+> O desempacotamento com `*` é expandido na seção 2.5.
+
+---
+
+### Memória: tupla vs lista
+
+Tupla usa menos memória do que lista. Instâncias de `list` reservam espaço extra
+(*overallocation*) para amortizar o custo de acréscimos futuros. Já `tuple` não precisa disso.
+
+```python
+import sys
+
+t = (1, 2, 3, 4, 5)
+l = [1, 2, 3, 4, 5]
+
+sys.getsizeof(t)  # 80 bytes
+sys.getsizeof(l)  # 104 bytes
+```
+
+> Use `tuple` quando a sequência não vai mudar: além de mais leve, sinaliza intenção ao leitor.
+
+---
+
+### Tuplas com itens mutáveis
+
+A imutabilidade da tupla se aplica às **referências** que ela armazena, não ao conteúdo
+dos objetos referenciados.
+
+```python
+t = ([1, 2], [3, 4])
+t[0].append(99)  # OK: mutamos a lista interna, não a tupla
+t[0] = [9, 9]    # TypeError: não podemos trocar a referência
+```
+
+> Tuplas com itens mutáveis combinam o pior dos dois mundos: não são `hashable`
+> (logo, não servem como chave de dicionário) e ainda carregam risco de mutação acidental.
+
+---
+
+### Métodos: tupla vs lista
+
+Tupla expõe apenas `count` e `index` — sem mutabilidade, operações de modificação não fazem sentido.
+
+| Operação              | `tuple` | `list` |
+|-----------------------|:-------:|:------:|
+| `count(x)`            | ✓       | ✓      |
+| `index(x)`            | ✓       | ✓      |
+| `len()`, `in`, `[i]`  | ✓       | ✓      |
+| Fatiamento `[a:b]`    | ✓       | ✓      |
+| Concatenação `+`, `*` | ✓       | ✓      |
+| `append(x)`           | ✗       | ✓      |
+| `insert(i, x)`        | ✗       | ✓      |
+| `remove(x)`, `pop()`  | ✗       | ✓      |
+| `sort()`, `reverse()` | ✗       | ✓      |
+| `extend(it)`          | ✗       | ✓      |
+| `clear()`, `copy()`   | ✗       | ✓      |
+
 ## 2.5 Descompactando Coleções
 
 ## 2.6 Pattern Matching com Sequências
