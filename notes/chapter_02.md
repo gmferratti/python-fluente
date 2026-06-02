@@ -240,6 +240,109 @@ Tupla expõe apenas `count` e `index` — sem mutabilidade, operações de modif
 
 ## 2.5 Descompactando Coleções
 
+O desempacotamento (*unpacking*) extrai itens de qualquer iterável sem precisar
+de índices explícitos. Funciona com tuplas, listas, geradores e qualquer objeto iterável.
+
+---
+
+### Desempacotamento básico e path split
+
+```python
+import os
+
+# Dividir caminho em diretório + arquivo final
+_, filename = os.path.split("/home/user/docs/report.pdf")
+# filename = "report.pdf"
+
+# Pegar apenas o último segmento com *
+*_, last = "/usr/local/bin/python".split("/")
+# last = "python"
+```
+
+---
+
+### `*` para recolher itens em excesso
+
+O operador `*` absorve o que sobrar e sempre retorna uma **lista**, mesmo que a sequência
+original seja uma tupla ou outro iterável.
+
+```python
+primeiro, *resto = range(5)
+# primeiro=0, resto=[1, 2, 3, 4]
+
+*inicio, ultimo = range(5)
+# inicio=[0, 1, 2, 3], ultimo=4
+
+primeiro, *meio, ultimo = range(6)
+# primeiro=0, meio=[1, 2, 3, 4], ultimo=5
+
+# Descarta o restante explicitamente
+a, b, *_ = (10, 20, 30, 40, 50)
+```
+
+---
+
+### `*` em chamadas de função e literais (PEP 448)
+
+```python
+def soma(a, b, c):
+    return a + b + c
+
+args = (1, 2, 3)
+soma(*args)  # equivale a soma(1, 2, 3)
+
+# PEP 448: * múltiplos em literais de lista/tupla/set
+l1 = [1, 2, 3]
+l2 = [4, 5]
+merged = [*l1, *l2, 6]
+# [1, 2, 3, 4, 5, 6]
+
+# ** para dicionários
+d1 = {"a": 1}
+d2 = {"b": 2}
+merged_dict = {**d1, **d2, "c": 3}
+# {"a": 1, "b": 2, "c": 3}
+```
+
+> Antes da PEP 448 (Python 3.5+), `*` só era válido em chamadas de função.
+> Agora pode aparecer múltiplas vezes em literais de sequência e mapeamento.
+
+---
+
+### Desempacotamento aninhado
+
+Python permite desempacotar estruturas aninhadas combinando parênteses na atribuição.
+Casos de uso realmente úteis são raros, o exemplo clássico do livro é extrair apenas
+o primeiro resultado de uma query SQL que retorna linhas com múltiplas colunas:
+
+```python
+# Simulação: SELECT city, country, pop FROM ... LIMIT 1
+query_result = [("Tokyo", "JP", 37_400_000)]
+
+# Sem desempacotamento aninhado:
+row = query_result[0]
+city = row[0]
+
+# Com desempacotamento aninhado:
+[(city, _, pop)] = query_result
+print(f"{city}: {pop:,}")
+```
+
+```python
+# Coordenadas aninhadas em tupla
+metro_areas = [
+    ("Tokyo",    "JP", 36.933, (35.689722,  139.691667)),
+    ("São Paulo","BR", 19.649, (-23.547778, -46.635833)),
+]
+
+for name, _, _, (lat, lon) in metro_areas:
+    if lon <= 0:
+        print(f"{name}: {lat:.4f}N, {lon:.4f}W")
+```
+
+> Prefira desempacotamento aninhado apenas quando a estrutura dos dados for bem conhecida
+> e a legibilidade ganhar claramente com isso.
+
 ## 2.6 Pattern Matching com Sequências
 
 ## 2.7 Fatiamento
