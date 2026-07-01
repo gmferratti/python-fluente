@@ -7,8 +7,8 @@ Execute diretamente:
 
 from random import choice, shuffle
 
-from .french_deck import Card, FrenchDeck, spades_high
-from .vector import Vector
+from ._01_french_deck import Card, FrenchDeck, spades_high
+from ._02_vector import Vector
 
 
 def demo_french_deck():
